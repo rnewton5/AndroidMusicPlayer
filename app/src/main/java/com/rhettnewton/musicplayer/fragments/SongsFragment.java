@@ -120,7 +120,7 @@ public class SongsFragment extends Fragment implements
 
         mRecyclerView.setAdapter(mSongsAdapter);
 
-        getPermissionsThenLoadSongs();
+        getActivity().getSupportLoaderManager().initLoader(SONG_LOADER_ID, null, this);
 
         return view;
     }
@@ -153,11 +153,12 @@ public class SongsFragment extends Fragment implements
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
         switch (loaderId) {
             case SONG_LOADER_ID:
+                String selection = "is_music=1";
                 return new CursorLoader(
                         getContext(),
                         Media.EXTERNAL_CONTENT_URI,
                         MAIN_SONG_PROJECTION,
-                        null,
+                        selection,
                         null,
                         null
                 );
@@ -171,42 +172,4 @@ public class SongsFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) { mSongsAdapter.swapCursor(null); }
-
-    private void loadSongs() {
-        getActivity().getSupportLoaderManager().initLoader(SONG_LOADER_ID, null, this);
-    }
-
-
-    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 252;
-    public void getPermissionsThenLoadSongs(){
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // TODO: show explanation for permission
-            } else {
-                requestPermissions(
-                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-            }
-        } else {
-            mPermissionsGranted = true;
-            loadSongs();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mPermissionsGranted = true;
-                    loadSongs();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-            }
-        }
-    }
 }

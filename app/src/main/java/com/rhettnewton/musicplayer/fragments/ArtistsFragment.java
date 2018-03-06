@@ -58,7 +58,6 @@ public class ArtistsFragment extends Fragment implements
 
     private RecyclerView mRecyclerView;
     private ArtistListAdapter mArtistsAdapter;
-    private boolean mPermissionsGranted = false;
 
     private OnFragmentInteractionListener mListener;
 
@@ -118,7 +117,7 @@ public class ArtistsFragment extends Fragment implements
 
         mRecyclerView.setAdapter(mArtistsAdapter);
 
-        getPermissionsThenLoadArtists();
+        getActivity().getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
 
         return view;
     }
@@ -168,43 +167,4 @@ public class ArtistsFragment extends Fragment implements
     public void onLoaderReset(Loader<Cursor> loader) {
         mArtistsAdapter.swapCursor(null);
     }
-
-
-    private void loadArtists() {
-        getActivity().getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
-    }
-
-    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 252;
-    public void getPermissionsThenLoadArtists(){
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // TODO: show explanation for permission
-            } else {
-                requestPermissions(
-                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-            }
-        } else {
-            mPermissionsGranted = true;
-            loadArtists();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mPermissionsGranted = true;
-                    loadArtists();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-            }
-        }
-    }
-
 }

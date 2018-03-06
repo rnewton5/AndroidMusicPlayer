@@ -17,8 +17,8 @@ import com.rhettnewton.musicplayer.R;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
 
-    private Context mContext;
-    private Cursor mCursor;
+    Context mContext;
+    Cursor mCursor;
 
     public AlbumAdapter(Context context) {
         mContext = context;
@@ -36,7 +36,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     @Override
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mAlbumTextView.setText(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Artists.Albums.ALBUM)));
+            holder.mAlbumTextView.setText(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM)));
         }
     }
 
@@ -49,6 +49,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     public void swapCursor(Cursor newCursor) {
         mCursor = newCursor;
+        notifyDataSetChanged();
     }
 
     class AlbumViewHolder extends RecyclerView.ViewHolder {

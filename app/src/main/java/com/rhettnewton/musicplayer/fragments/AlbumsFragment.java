@@ -14,6 +14,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,9 @@ public class AlbumsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String[] MAIN_ALBUM_PROJECTION = {
+            Albums._ID,
             Albums.ALBUM,
+            Albums.ALBUM_KEY,
             Albums.ARTIST,
             Albums.NUMBER_OF_SONGS,
     };
@@ -49,7 +52,6 @@ public class AlbumsFragment extends Fragment implements
 
     private RecyclerView mRecyclerView;
     private AlbumAdapter mAlbumAdapter;
-    private boolean mPermissionsGranted = false;
 
     private static final int ALBUM_LOADER_ID = 642;
 
@@ -108,7 +110,7 @@ public class AlbumsFragment extends Fragment implements
 
         mRecyclerView.setAdapter(mAlbumAdapter);
 
-        getPermissionsThenLoadAlbums();
+        getActivity().getSupportLoaderManager().initLoader(ALBUM_LOADER_ID, null, this);
 
         return view;
     }
@@ -139,6 +141,7 @@ public class AlbumsFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d("AlbumsFragment", "Albums loader created");
         return new CursorLoader(
                 getContext(),
                 Albums.EXTERNAL_CONTENT_URI,
@@ -151,48 +154,12 @@ public class AlbumsFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        Log.d("AlbumsFragment", "Albums load finished");
         mAlbumAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAlbumAdapter.swapCursor(null);
-    }
-
-    private void loadAlbums() {
-        getActivity().getSupportLoaderManager().initLoader(ALBUM_LOADER_ID, null, this);
-    }
-
-    private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 252;
-    public void getPermissionsThenLoadAlbums(){
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // TODO: show explanation for permission
-            } else {
-                requestPermissions(
-                        new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMISSION_REQUEST_READ_EXTERNAL_STORAGE);
-            }
-        } else {
-            mPermissionsGranted = true;
-            loadAlbums();
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mPermissionsGranted = true;
-                    loadAlbums();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-            }
-        }
     }
 }

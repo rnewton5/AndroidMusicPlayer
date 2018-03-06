@@ -37,7 +37,6 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            Log.d("Hello", mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media._ID)));
             holder.mSongTitle.setText(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
         }
     }
