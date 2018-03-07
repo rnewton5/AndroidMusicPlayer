@@ -27,7 +27,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.AlbumViewActivity"></activity>
+        <activity android:name=".activities.AlbumViewActivity" />
+        <activity android:name=".activities.ArtistViewActivity"></activity>
     </application>
 
 </manifest>
