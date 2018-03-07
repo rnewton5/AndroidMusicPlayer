@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
-    public void hideNeedPermissionsMessage() {
+    public void hideNeedsPermissionsMessage() {
         TextView permissionsMessageTextView = (TextView) findViewById(R.id.tv_permissions_message);
         permissionsMessageTextView.setVisibility(View.INVISIBLE);
     }
 
     private void loadPages() {
-        hideNeedPermissionsMessage();
+        hideNeedsPermissionsMessage();
         mViewPager.setAdapter(mAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.mainTabLayout);
         tabLayout.setupWithViewPager(mViewPager);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements
     public void getPermissionsThenLoadContent(){
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // TODO: show explanation for permission
+
             } else {
                 ActivityCompat.requestPermissions(
                         this,
@@ -75,13 +75,9 @@ public class MainActivity extends AppCompatActivity implements
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMISSION_REQUEST_READ_EXTERNAL_STORAGE: {
-                // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     loadPages();
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
             }
         }
