@@ -1,12 +1,9 @@
 package com.rhettnewton.musicplayer.activities;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -15,9 +12,6 @@ import android.widget.TextView;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.MusicCollectionPagerAdapter;
-import com.rhettnewton.musicplayer.fragments.AlbumsFragment;
-import com.rhettnewton.musicplayer.fragments.ArtistsFragment;
-import com.rhettnewton.musicplayer.fragments.SongsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
