@@ -27,8 +27,22 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".activities.AlbumViewActivity" />
-        <activity android:name=".activities.ArtistViewActivity"></activity>
+        <activity
+            android:name=".activities.AlbumViewActivity"
+            android:label="@string/albums_page_title"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rhettnewton.musicplayer.activities.MainActivity"/>
+        </activity>
+        <activity
+            android:name=".activities.ArtistViewActivity"
+            android:label="@string/artists_page_title"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.rhettnewton.musicplayer.activities.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
