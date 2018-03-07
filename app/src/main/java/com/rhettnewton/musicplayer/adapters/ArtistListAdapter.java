@@ -69,6 +69,9 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
     }
 
     public void swapCursor(Cursor newCursor) {
+        if (mCursor != null) {
+            mCursor.close();
+        }
         mCursor = newCursor;
         notifyDataSetChanged();
     }

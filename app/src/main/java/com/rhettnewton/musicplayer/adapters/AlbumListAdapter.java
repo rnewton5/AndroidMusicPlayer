@@ -69,6 +69,9 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     }
 
     public void swapCursor(Cursor newCursor) {
+        if (mCursor != null) {
+            mCursor.close();
+        }
         mCursor = newCursor;
         notifyDataSetChanged();
     }

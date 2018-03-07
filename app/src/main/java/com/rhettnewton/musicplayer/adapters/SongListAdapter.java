@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.MediaStore.Audio.Media;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,7 @@ import com.rhettnewton.musicplayer.R;
  */
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>  {
-    
+
     public static final String[] MAIN_SONG_PROJECTION = {
             Media._ID,
             Media.ARTIST_ID,
@@ -83,6 +84,9 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     }
 
     public void swapCursor(Cursor newCursor) {
+        if (mCursor != null) {
+            mCursor.close();
+        }
         mCursor = newCursor;
         notifyDataSetChanged();
     }
