@@ -15,12 +15,12 @@ import com.rhettnewton.musicplayer.R;
  * Created by Rhett on 3/4/2018.
  */
 
-public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder> {
+public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder> {
 
     Context mContext;
     Cursor mCursor;
 
-    public AlbumAdapter(Context context) {
+    public AlbumListAdapter(Context context) {
         mContext = context;
     }
 
@@ -42,9 +42,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     @Override
     public int getItemCount() {
-        if (mCursor == null)
-            return 0;
-        return mCursor.getCount();
+        if (mCursor != null) {
+            return mCursor.getCount();
+        }
+        return 0;
     }
 
     public void swapCursor(Cursor newCursor) {
@@ -54,9 +55,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     class AlbumViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView mAlbumTextView;
+        private TextView mAlbumTextView;
 
-        public AlbumViewHolder(View itemView) {
+        private AlbumViewHolder(View itemView) {
             super(itemView);
             mAlbumTextView = itemView.findViewById(R.id.tv_album_name);
         }

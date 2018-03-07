@@ -1,13 +1,10 @@
 package com.rhettnewton.musicplayer.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Audio.Albums;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -20,7 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rhettnewton.musicplayer.R;
-import com.rhettnewton.musicplayer.adapters.AlbumAdapter;
+import com.rhettnewton.musicplayer.adapters.AlbumListAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,7 +48,7 @@ public class AlbumsFragment extends Fragment implements
     private String mParam2;
 
     private RecyclerView mRecyclerView;
-    private AlbumAdapter mAlbumAdapter;
+    private AlbumListAdapter mAlbumListAdapter;
 
     private static final int ALBUM_LOADER_ID = 642;
 
@@ -106,9 +103,9 @@ public class AlbumsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mAlbumAdapter = new AlbumAdapter(getContext());
+        mAlbumListAdapter = new AlbumListAdapter(getContext());
 
-        mRecyclerView.setAdapter(mAlbumAdapter);
+        mRecyclerView.setAdapter(mAlbumListAdapter);
 
         getActivity().getSupportLoaderManager().initLoader(ALBUM_LOADER_ID, null, this);
 
@@ -155,11 +152,11 @@ public class AlbumsFragment extends Fragment implements
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         Log.d("AlbumsFragment", "Albums load finished");
-        mAlbumAdapter.swapCursor(data);
+        mAlbumListAdapter.swapCursor(data);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mAlbumAdapter.swapCursor(null);
+        mAlbumListAdapter.swapCursor(null);
     }
 }

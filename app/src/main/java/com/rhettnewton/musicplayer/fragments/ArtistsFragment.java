@@ -1,14 +1,10 @@
 package com.rhettnewton.musicplayer.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Artists;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -57,7 +53,7 @@ public class ArtistsFragment extends Fragment implements
     private String mParam2;
 
     private RecyclerView mRecyclerView;
-    private ArtistListAdapter mArtistsAdapter;
+    private ArtistListAdapter mArtistListAdapter;
 
     private OnFragmentInteractionListener mListener;
 
@@ -113,9 +109,9 @@ public class ArtistsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mArtistsAdapter = new ArtistListAdapter(getContext());
+        mArtistListAdapter = new ArtistListAdapter(getContext());
 
-        mRecyclerView.setAdapter(mArtistsAdapter);
+        mRecyclerView.setAdapter(mArtistListAdapter);
 
         getActivity().getSupportLoaderManager().initLoader(ARTISTS_LOADER_ID, null, this);
 
@@ -160,11 +156,11 @@ public class ArtistsFragment extends Fragment implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        mArtistsAdapter.swapCursor(cursor);
+        mArtistListAdapter.swapCursor(cursor);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-        mArtistsAdapter.swapCursor(null);
+        mArtistListAdapter.swapCursor(null);
     }
 }

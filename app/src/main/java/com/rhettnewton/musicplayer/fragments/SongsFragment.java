@@ -1,13 +1,10 @@
 package com.rhettnewton.musicplayer.fragments;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Audio.Media;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -63,7 +60,7 @@ public class SongsFragment extends Fragment implements
     private OnFragmentInteractionListener mListener;
     private boolean mPermissionsGranted = false;
     private RecyclerView mRecyclerView;
-    private SongListAdapter mSongsAdapter;
+    private SongListAdapter mSongListAdapter;
 
     /**
      * See the Android Training lesson <a href=
@@ -116,9 +113,9 @@ public class SongsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mSongsAdapter = new SongListAdapter(getContext());
+        mSongListAdapter = new SongListAdapter(getContext());
 
-        mRecyclerView.setAdapter(mSongsAdapter);
+        mRecyclerView.setAdapter(mSongListAdapter);
 
         getActivity().getSupportLoaderManager().initLoader(SONG_LOADER_ID, null, this);
 
@@ -168,8 +165,8 @@ public class SongsFragment extends Fragment implements
     }
 
     @Override
-    public void onLoadFinished(Loader<Cursor> loader, Cursor data) { mSongsAdapter.swapCursor(data); }
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) { mSongListAdapter.swapCursor(data); }
 
     @Override
-    public void onLoaderReset(Loader<Cursor> loader) { mSongsAdapter.swapCursor(null); }
+    public void onLoaderReset(Loader<Cursor> loader) { mSongListAdapter.swapCursor(null); }
 }

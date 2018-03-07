@@ -43,9 +43,10 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
 
     @Override
     public int getItemCount() {
-        if (mCursor == null)
-            return 0;
-        return mCursor.getCount();
+        if (mCursor != null) {
+            return mCursor.getCount();
+        }
+        return 0;
     }
 
     public void swapCursor(Cursor newCursor) {

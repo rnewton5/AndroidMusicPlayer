@@ -54,11 +54,11 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         notifyDataSetChanged();
     }
 
-    public class SongViewHolder extends RecyclerView.ViewHolder {
+    class SongViewHolder extends RecyclerView.ViewHolder {
 
         private TextView mSongTitle;
 
-        public SongViewHolder(View itemView) {
+        private SongViewHolder(View itemView) {
             super(itemView);
             mSongTitle = itemView.findViewById(R.id.tv_song_title);
         }
