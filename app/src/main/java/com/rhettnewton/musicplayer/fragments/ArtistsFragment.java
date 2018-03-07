@@ -1,5 +1,6 @@
 package com.rhettnewton.musicplayer.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore.Audio.Artists;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.rhettnewton.musicplayer.R;
+import com.rhettnewton.musicplayer.activities.ArtistViewActivity;
 import com.rhettnewton.musicplayer.adapters.ArtistListAdapter;
 
 public class ArtistsFragment extends Fragment implements
@@ -88,6 +90,8 @@ public class ArtistsFragment extends Fragment implements
     public void onClick(String artistId) {
         // TODO: Launch explict intent for AlbumViewActivity
         Log.d("ArtistsFragment", "Artist Item clicked with id: " + artistId);
+        Intent intent = new Intent(getActivity(), ArtistViewActivity.class);
+        startActivity(intent);
     }
 
     @Override
