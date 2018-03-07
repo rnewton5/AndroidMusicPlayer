@@ -18,14 +18,6 @@ import android.view.ViewGroup;
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.ArtistListAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ArtistsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ArtistsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ArtistsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -43,28 +35,16 @@ public class ArtistsFragment extends Fragment implements
     private static final int INDEX_ARTIST_NUM_ALBUMS = 3;
     private static final int INDEX_ARTIST_NUM_TRACKS = 4;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
     private RecyclerView mRecyclerView;
     private ArtistListAdapter mArtistListAdapter;
 
-    private OnFragmentInteractionListener mListener;
-
     private static final int ARTISTS_LOADER_ID = 955;
-
-
-    // "http://developer.android.com/training/basics/fragments/communicating.html"
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 
     public ArtistsFragment() {
         // Required empty public constructor
@@ -118,28 +98,8 @@ public class ArtistsFragment extends Fragment implements
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     @Override
