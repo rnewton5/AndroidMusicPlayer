@@ -1,8 +1,6 @@
 package com.rhettnewton.musicplayer.fragments;
 
-import android.content.Context;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore.Audio.Media;
 import android.support.v4.app.Fragment;
