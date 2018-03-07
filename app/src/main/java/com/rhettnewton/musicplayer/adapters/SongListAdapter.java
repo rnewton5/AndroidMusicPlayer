@@ -2,9 +2,8 @@ package com.rhettnewton.musicplayer.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.MediaStore;
+import android.provider.MediaStore.Audio.Media;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,26 +16,34 @@ import com.rhettnewton.musicplayer.R;
  */
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>  {
-
+    
     public static final String[] MAIN_SONG_PROJECTION = {
-            MediaStore.Audio.Media._ID,
-//            Media.ARTIST_ID,
-            MediaStore.Audio.Media.ARTIST,
-//            Media.ARTIST_KEY,
-//            Media.ALBUM_ID,
-//            Media.ALBUM,
-//            Media.ALBUM_KEY,
-            MediaStore.Audio.Media.TITLE,
-//            Media.TITLE_KEY,
-//            Media.TRACK,
-//            Media.YEAR,
-            MediaStore.Audio.Media.DATA
+            Media._ID,
+            Media.ARTIST_ID,
+            Media.ALBUM_ID,
+            Media.ARTIST,
+            Media.ARTIST_KEY,
+            Media.ALBUM,
+            Media.ALBUM_KEY,
+            Media.TITLE,
+            Media.TITLE_KEY,
+            Media.TRACK,
+            Media.YEAR,
+            Media.DATA
     };
 
     private static final int INDEX_SONG_ID = 0;
-    private static final int INDEX_SONG_ARTIST = 1;
-    private static final int INDEX_SONG_TITLE = 2;
-    private static final int INDEX_SONG_DATA = 3;
+    private static final int INDEX_ARTIST_ID = 1;
+    private static final int INDEX_ALBUM_ID = 2;
+    private static final int INDEX_ARTIST = 3;
+    private static final int INDEX_ARTIST_KEY = 4;
+    private static final int INDEX_ALBUM = 5;
+    private static final int INDEX_ALBUM_KEY = 6;
+    private static final int INDEX_TITLE = 7;
+    private static final int INDEX_TITLE_KEY = 8;
+    private static final int INDEX_TRACK = 9;
+    private static final int INDEX_YEAR = 10;
+    private static final int INDEX_SONG_DATA = 11;
 
     private Context mContext;
     private Cursor mCursor;
@@ -63,7 +70,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mSongTitle.setText(mCursor.getString(INDEX_SONG_TITLE));
+            holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
         }
     }
 
