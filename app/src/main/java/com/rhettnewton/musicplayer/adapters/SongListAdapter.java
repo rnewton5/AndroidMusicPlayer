@@ -18,11 +18,37 @@ import com.rhettnewton.musicplayer.R;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>  {
 
-    Context mContext;
-    Cursor mCursor;
+    public static final String[] MAIN_SONG_PROJECTION = {
+            MediaStore.Audio.Media._ID,
+//            Media.ARTIST_ID,
+            MediaStore.Audio.Media.ARTIST,
+//            Media.ARTIST_KEY,
+//            Media.ALBUM_ID,
+//            Media.ALBUM,
+//            Media.ALBUM_KEY,
+            MediaStore.Audio.Media.TITLE,
+//            Media.TITLE_KEY,
+//            Media.TRACK,
+//            Media.YEAR,
+            MediaStore.Audio.Media.DATA
+    };
 
-    public SongListAdapter(Context context) {
+    private static final int INDEX_SONG_ID = 0;
+    private static final int INDEX_SONG_ARTIST = 1;
+    private static final int INDEX_SONG_TITLE = 2;
+    private static final int INDEX_SONG_DATA = 3;
+
+    private Context mContext;
+    private Cursor mCursor;
+    private SongListAdapterOnClickHandler mClickHandler;
+
+    public interface SongListAdapterOnClickHandler {
+        void onClick(String songId);
+    }
+
+    public SongListAdapter(Context context, SongListAdapterOnClickHandler clickHandler) {
         mContext = context;
+        mClickHandler = clickHandler;
     }
 
     @Override
@@ -37,7 +63,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mSongTitle.setText(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+            holder.mSongTitle.setText(mCursor.getString(INDEX_SONG_TITLE));
         }
     }
 
@@ -54,13 +80,21 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         notifyDataSetChanged();
     }
 
-    class SongViewHolder extends RecyclerView.ViewHolder {
+    class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mSongTitle;
 
         private SongViewHolder(View itemView) {
             super(itemView);
             mSongTitle = itemView.findViewById(R.id.tv_song_title);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mCursor.moveToPosition(getAdapterPosition())) {
+                mClickHandler.onClick(mCursor.getString(INDEX_SONG_ID));
+            }
         }
     }
 }

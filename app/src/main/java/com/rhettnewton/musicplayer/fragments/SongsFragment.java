@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,27 +20,8 @@ import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.SongListAdapter;
 
 public class SongsFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
-
-    private static final String[] MAIN_SONG_PROJECTION = {
-            Media._ID,
-//            Media.ARTIST_ID,
-            Media.ARTIST,
-//            Media.ARTIST_KEY,
-//            Media.ALBUM_ID,
-//            Media.ALBUM,
-//            Media.ALBUM_KEY,
-            Media.TITLE,
-//            Media.TITLE_KEY,
-//            Media.TRACK,
-//            Media.YEAR,
-            Media.DATA
-    };
-
-    private static final int INDEX_SONG_ID = 0;
-    private static final int INDEX_SONG_ARTIST = 1;
-    private static final int INDEX_SONG_TITLE = 2;
-    private static final int INDEX_SONG_DATA = 3;
+        LoaderManager.LoaderCallbacks<Cursor>,
+        SongListAdapter.SongListAdapterOnClickHandler {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -96,7 +78,7 @@ public class SongsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mSongListAdapter = new SongListAdapter(getContext());
+        mSongListAdapter = new SongListAdapter(getContext(), this);
 
         mRecyclerView.setAdapter(mSongListAdapter);
 
@@ -105,8 +87,10 @@ public class SongsFragment extends Fragment implements
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-
+    @Override
+    public void onClick(String songId) {
+        // TODO: Launch explict intent for AlbumViewActivity
+        Log.d("SongsFragment", "Song Item clicked with id: " + songId);
     }
 
     @Override
@@ -117,7 +101,7 @@ public class SongsFragment extends Fragment implements
                 return new CursorLoader(
                         getContext(),
                         Media.EXTERNAL_CONTENT_URI,
-                        MAIN_SONG_PROJECTION,
+                        SongListAdapter.MAIN_SONG_PROJECTION,
                         selection,
                         null,
                         null
