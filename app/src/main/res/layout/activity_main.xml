@@ -17,4 +17,13 @@
             android:layout_gravity="top" />
     </android.support.v4.view.ViewPager>
 
+    <TextView
+        android:id="@+id/tv_permissions_message"
+        android:layout_width="match_parent"
+        android:layout_height="155dp"
+        android:layout_gravity="center_vertical"
+        android:text="@string/no_permissions_message"
+        android:textAlignment="center"
+        android:textSize="24sp" />
+
 </FrameLayout>

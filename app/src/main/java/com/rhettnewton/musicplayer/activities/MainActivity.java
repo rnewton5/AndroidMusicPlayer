@@ -10,6 +10,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.TextView;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.MusicCollectionPagerAdapter;
@@ -41,7 +43,13 @@ public class MainActivity extends AppCompatActivity implements
 
     }
 
+    public void hideNeedPermissionsMessage() {
+        TextView permissionsMessageTextView = (TextView) findViewById(R.id.tv_permissions_message);
+        permissionsMessageTextView.setVisibility(View.INVISIBLE);
+    }
+
     private void loadPages() {
+        hideNeedPermissionsMessage();
         mViewPager.setAdapter(mAdapter);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.mainTabLayout);
         tabLayout.setupWithViewPager(mViewPager);
