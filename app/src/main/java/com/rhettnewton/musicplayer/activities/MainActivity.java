@@ -19,10 +19,7 @@ import com.rhettnewton.musicplayer.fragments.AlbumsFragment;
 import com.rhettnewton.musicplayer.fragments.ArtistsFragment;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
 
-public class MainActivity extends AppCompatActivity implements
-        ArtistsFragment.OnFragmentInteractionListener,
-        SongsFragment.OnFragmentInteractionListener,
-        AlbumsFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     private ViewPager mViewPager;
     private MusicCollectionPagerAdapter mAdapter;
@@ -36,11 +33,6 @@ public class MainActivity extends AppCompatActivity implements
         mAdapter = new MusicCollectionPagerAdapter(this, getSupportFragmentManager());
 
         getPermissionsThenLoadContent();
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 
     public void hideNeedsPermissionsMessage() {
