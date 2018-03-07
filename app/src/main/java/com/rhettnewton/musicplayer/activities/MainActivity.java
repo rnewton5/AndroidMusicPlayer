@@ -1,12 +1,15 @@
 package com.rhettnewton.musicplayer.activities;
 
 import android.Manifest;
+import android.app.ActionBar;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.MusicCollectionPagerAdapter;
@@ -14,7 +17,7 @@ import com.rhettnewton.musicplayer.fragments.AlbumsFragment;
 import com.rhettnewton.musicplayer.fragments.ArtistsFragment;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
 
-public class MainActivity extends FragmentActivity implements
+public class MainActivity extends AppCompatActivity implements
         ArtistsFragment.OnFragmentInteractionListener,
         SongsFragment.OnFragmentInteractionListener,
         AlbumsFragment.OnFragmentInteractionListener {
@@ -26,8 +29,10 @@ public class MainActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
-        mAdapter = new MusicCollectionPagerAdapter(getSupportFragmentManager());
+        mAdapter = new MusicCollectionPagerAdapter(this, getSupportFragmentManager());
+
         getPermissionsThenLoadContent();
     }
 
@@ -38,6 +43,8 @@ public class MainActivity extends FragmentActivity implements
 
     private void loadPages() {
         mViewPager.setAdapter(mAdapter);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.mainTabLayout);
+        tabLayout.setupWithViewPager(mViewPager);
     }
 
     private static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 252;

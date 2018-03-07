@@ -3,4 +3,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- MusicCollectionPagerAdapter Page Titles -->
+    <string name="artists_page_title">Artists</string>
+    <string name="albums_page_title">Albums</string>
+    <string name="songs_page_title">Songs</string>
 </resources>
