@@ -23,20 +23,6 @@ public class AlbumsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         AlbumListAdapter.AlbumListAdapterOnClickHandler {
 
-    private static final String[] MAIN_ALBUM_PROJECTION = {
-            Albums._ID,
-            Albums.ALBUM,
-            Albums.ALBUM_KEY,
-            Albums.ARTIST,
-            Albums.NUMBER_OF_SONGS,
-    };
-
-    private static final int INDEX_ALBUM_ID = 0;
-    private static final int INDEX_ALBUM_NAME = 1;
-    private static final int INDEX_ALBUM_KEY = 2;
-    private static final int INDEX_ALBUM_ARTIST = 3;
-    private static final int INDEX_NUM_SONGS = 4;
-
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -112,7 +98,7 @@ public class AlbumsFragment extends Fragment implements
         return new CursorLoader(
                 getContext(),
                 Albums.EXTERNAL_CONTENT_URI,
-                MAIN_ALBUM_PROJECTION,
+                AlbumListAdapter.MAIN_ALBUM_PROJECTION,
                 null,
                 null,
                 null

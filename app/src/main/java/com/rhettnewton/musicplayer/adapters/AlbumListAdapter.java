@@ -17,6 +17,20 @@ import com.rhettnewton.musicplayer.R;
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder> {
 
+    public static final String[] MAIN_ALBUM_PROJECTION = {
+            MediaStore.Audio.Albums._ID,
+            MediaStore.Audio.Albums.ALBUM,
+            MediaStore.Audio.Albums.ALBUM_KEY,
+            MediaStore.Audio.Albums.ARTIST,
+            MediaStore.Audio.Albums.NUMBER_OF_SONGS,
+    };
+
+    private static final int INDEX_ALBUM_ID = 0;
+    private static final int INDEX_ALBUM_NAME = 1;
+    private static final int INDEX_ALBUM_KEY = 2;
+    private static final int INDEX_ALBUM_ARTIST = 3;
+    private static final int INDEX_NUM_SONGS = 4;
+
     private Context mContext;
     private Cursor mCursor;
     private AlbumListAdapterOnClickHandler mClickHandler;
@@ -42,7 +56,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     @Override
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mAlbumTextView.setText(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM)));
+            holder.mAlbumTextView.setText(mCursor.getString(INDEX_ALBUM_NAME));
         }
     }
 
@@ -72,7 +86,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
         @Override
         public void onClick(View view) {
             if (mCursor.moveToPosition(getAdapterPosition())) {
-                mClickHandler.onClick(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Albums._ID)));
+                mClickHandler.onClick(mCursor.getString(INDEX_ALBUM_ID));
             }
         }
     }

@@ -11,6 +11,7 @@ import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,8 @@ import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.ArtistListAdapter;
 
 public class ArtistsFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
-
-    private static final String[] MAIN_ARTIST_PROJECTION = {
-            Artists._ID,
-            Artists.ARTIST,
-            Artists.ARTIST_KEY,
-            Artists.NUMBER_OF_ALBUMS,
-            Artists.NUMBER_OF_TRACKS
-    };
-
-    private static final int INDEX_ARTIST_ID = 0;
-    private static final int INDEX_ARTIST_NAME = 1;
-    private static final int INDEX_ARTIST_KEY = 2;
-    private static final int INDEX_ARTIST_NUM_ALBUMS = 3;
-    private static final int INDEX_ARTIST_NUM_TRACKS = 4;
+        LoaderManager.LoaderCallbacks<Cursor>,
+        ArtistListAdapter.ArtistListAdapterOnClickHandler {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -89,7 +77,7 @@ public class ArtistsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mArtistListAdapter = new ArtistListAdapter(getContext());
+        mArtistListAdapter = new ArtistListAdapter(getContext(), this);
 
         mRecyclerView.setAdapter(mArtistListAdapter);
 
@@ -98,8 +86,10 @@ public class ArtistsFragment extends Fragment implements
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-
+    @Override
+    public void onClick(String artistId) {
+        // TODO: Launch explict intent for AlbumViewActivity
+        Log.d("ArtistsFragment", "Artist Item clicked with id: " + artistId);
     }
 
     @Override
@@ -107,7 +97,7 @@ public class ArtistsFragment extends Fragment implements
         return new CursorLoader(
                 getContext(),
                 Artists.EXTERNAL_CONTENT_URI,
-                MAIN_ARTIST_PROJECTION,
+                ArtistListAdapter.MAIN_ARTIST_PROJECTION,
                 null,
                 null,
                 null
