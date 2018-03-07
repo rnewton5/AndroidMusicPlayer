@@ -20,7 +20,8 @@ import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.AlbumListAdapter;
 
 public class AlbumsFragment extends Fragment implements
-        LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor>,
+        AlbumListAdapter.AlbumListAdapterOnClickHandler {
 
     private static final String[] MAIN_ALBUM_PROJECTION = {
             Albums._ID,
@@ -90,7 +91,7 @@ public class AlbumsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mAlbumListAdapter = new AlbumListAdapter(getContext());
+        mAlbumListAdapter = new AlbumListAdapter(getContext(), this);
 
         mRecyclerView.setAdapter(mAlbumListAdapter);
 
@@ -99,8 +100,10 @@ public class AlbumsFragment extends Fragment implements
         return view;
     }
 
-    public void onButtonPressed(Uri uri) {
-
+    @Override
+    public void onClick(String albumId) {
+        // TODO: Launch explict intent for AlbumViewActivity
+        Log.d("AlbumsFragment", "Album Item clicked with id: " + albumId);
     }
 
     @Override

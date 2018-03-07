@@ -17,11 +17,17 @@ import com.rhettnewton.musicplayer.R;
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder> {
 
-    Context mContext;
-    Cursor mCursor;
+    private Context mContext;
+    private Cursor mCursor;
+    private AlbumListAdapterOnClickHandler mClickHandler;
 
-    public AlbumListAdapter(Context context) {
+    public interface AlbumListAdapterOnClickHandler {
+        void onClick(String albumId);
+    }
+
+    public AlbumListAdapter(Context context, AlbumListAdapterOnClickHandler clickHandler) {
         mContext = context;
+        mClickHandler = clickHandler;
     }
 
     @Override
@@ -53,13 +59,21 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
         notifyDataSetChanged();
     }
 
-    class AlbumViewHolder extends RecyclerView.ViewHolder {
+    class AlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mAlbumTextView;
 
         private AlbumViewHolder(View itemView) {
             super(itemView);
             mAlbumTextView = itemView.findViewById(R.id.tv_album_name);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mCursor.moveToPosition(getAdapterPosition())) {
+                mClickHandler.onClick(mCursor.getString(mCursor.getColumnIndex(MediaStore.Audio.Albums._ID)));
+            }
         }
     }
 }
