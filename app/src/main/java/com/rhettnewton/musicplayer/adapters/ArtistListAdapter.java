@@ -39,9 +39,9 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         void onClick(String artistId);
     }
 
-    public ArtistListAdapter(Context context, ArtistListAdapterOnClickHandler ClickHandler) {
+    public ArtistListAdapter(Context context, ArtistListAdapterOnClickHandler clickHandler) {
         mContext = context;
-        mClickHandler = ClickHandler;
+        mClickHandler = clickHandler;
     }
 
     @Override
