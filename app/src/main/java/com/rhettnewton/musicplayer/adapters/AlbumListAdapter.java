@@ -40,7 +40,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     private AlbumListAdapterOnClickHandler mClickHandler;
 
     public interface AlbumListAdapterOnClickHandler {
-        void onClick(String albumId, String albumName);
+        void onClick(String albumId, String albumName, String albumArt);
     }
 
     public AlbumListAdapter(Context context, AlbumListAdapterOnClickHandler clickHandler) {
@@ -95,7 +95,9 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
             if (mCursor.moveToPosition(getAdapterPosition())) {
                 mClickHandler.onClick(
                         mCursor.getString(INDEX_ALBUM_ID),
-                        mCursor.getString(INDEX_ALBUM_NAME));
+                        mCursor.getString(INDEX_ALBUM_NAME),
+                        mCursor.getString(INDEX_ALBUM_ART)
+                );
             }
         }
     }
