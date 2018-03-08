@@ -4,6 +4,8 @@ import android.app.LoaderManager;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,6 +14,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.adapters.SongListAdapter;
@@ -31,7 +34,7 @@ public class AlbumViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
-        
+
         albumId = getIntent().getStringExtra(EXTRA_ALBUM_ID);
         albumName = getIntent().getStringExtra(EXTRA_ALBUM_NAME);
         albumArt = getIntent().getStringExtra(EXTRA_ALBUM_ART);
@@ -42,6 +45,10 @@ public class AlbumViewActivity extends AppCompatActivity {
         toolbar.setTitle(albumName);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bitmap bm = BitmapFactory.decodeFile(albumArt);
+        ImageView image = findViewById(R.id.iv_album_art);
+        image.setImageBitmap(bm);
     }
 
     public void replaceFragment(Fragment fragment) {
