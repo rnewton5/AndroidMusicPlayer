@@ -2,6 +2,7 @@ package com.rhettnewton.musicplayer.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore.Audio.Media;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.rhettnewton.musicplayer.R;
 
 public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>  {
 
+    public static final Uri CONTENT_URI = Media.EXTERNAL_CONTENT_URI;
     public static final String[] MAIN_SONG_PROJECTION = {
             Media._ID,
             Media.ARTIST_ID,

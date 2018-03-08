@@ -29,6 +29,7 @@
 
         <activity
             android:name=".activities.AlbumViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/albums_page_title"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
