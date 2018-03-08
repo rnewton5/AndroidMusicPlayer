@@ -88,10 +88,12 @@ public class AlbumsFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(String albumId) {
+    public void onClick(String albumId, String albumName) {
         // TODO: Launch explict intent for AlbumViewActivity
         Log.d("AlbumsFragment", "Album Item clicked with id: " + albumId);
         Intent intent = new Intent(getActivity(), AlbumViewActivity.class);
+        intent.putExtra(AlbumViewActivity.EXTRA_ALBUM_ID, albumId);
+        intent.putExtra(AlbumViewActivity.EXTRA_ALBUM_NAME, albumName);
         startActivity(intent);
     }
 
@@ -100,7 +102,7 @@ public class AlbumsFragment extends Fragment implements
         Log.d("AlbumsFragment", "Albums loader created");
         return new CursorLoader(
                 getContext(),
-                Albums.EXTERNAL_CONTENT_URI,
+                AlbumListAdapter.CONTENT_URI,
                 AlbumListAdapter.MAIN_ALBUM_PROJECTION,
                 null,
                 null,

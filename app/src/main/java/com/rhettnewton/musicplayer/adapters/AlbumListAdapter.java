@@ -2,7 +2,8 @@ package com.rhettnewton.musicplayer.adapters;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.provider.MediaStore;
+import android.net.Uri;
+import android.provider.MediaStore.Audio.Albums;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,14 @@ import com.rhettnewton.musicplayer.R;
 
 public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.AlbumViewHolder> {
 
+    public static final Uri CONTENT_URI = Albums.EXTERNAL_CONTENT_URI;
     public static final String[] MAIN_ALBUM_PROJECTION = {
-            MediaStore.Audio.Albums._ID,
-            MediaStore.Audio.Albums.ALBUM,
-            MediaStore.Audio.Albums.ALBUM_KEY,
-            MediaStore.Audio.Albums.ARTIST,
-            MediaStore.Audio.Albums.NUMBER_OF_SONGS,
+            Albums._ID,
+            Albums.ALBUM,
+            Albums.ALBUM_KEY,
+            Albums.ARTIST,
+            Albums.NUMBER_OF_SONGS,
+
     };
 
     private static final int INDEX_ALBUM_ID = 0;
@@ -36,7 +39,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     private AlbumListAdapterOnClickHandler mClickHandler;
 
     public interface AlbumListAdapterOnClickHandler {
-        void onClick(String albumId);
+        void onClick(String albumId, String albumName);
     }
 
     public AlbumListAdapter(Context context, AlbumListAdapterOnClickHandler clickHandler) {
@@ -89,7 +92,9 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
         @Override
         public void onClick(View view) {
             if (mCursor.moveToPosition(getAdapterPosition())) {
-                mClickHandler.onClick(mCursor.getString(INDEX_ALBUM_ID));
+                mClickHandler.onClick(
+                        mCursor.getString(INDEX_ALBUM_ID),
+                        mCursor.getString(INDEX_ALBUM_NAME));
             }
         }
     }
