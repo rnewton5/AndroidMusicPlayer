@@ -21,16 +21,20 @@ public class AlbumViewActivity extends AppCompatActivity {
 
     public static String EXTRA_ALBUM_ID = "com.rhettnewton.EXTRA_ALBUM_ID";
     public static String EXTRA_ALBUM_NAME = "com.rhettnewton.EXTRA_ALBUM_NAME";
+    public static String EXTRA_ALBUM_ART = "com.rhettnewton.EXTRA_ALBUM_ART";
 
     private String albumId = "-1";
     private String albumName = "Album Name";
+    private String albumArt = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
+        
         albumId = getIntent().getStringExtra(EXTRA_ALBUM_ID);
         albumName = getIntent().getStringExtra(EXTRA_ALBUM_NAME);
+        albumArt = getIntent().getStringExtra(EXTRA_ALBUM_ART);
 
         replaceFragment(SongsFragment.newInstance(albumId,null));
 
