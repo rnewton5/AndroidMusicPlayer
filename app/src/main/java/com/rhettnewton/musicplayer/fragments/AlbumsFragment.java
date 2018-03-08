@@ -88,12 +88,11 @@ public class AlbumsFragment extends Fragment implements
     }
 
     @Override
-    public void onClick(String albumId, String albumName) {
-        // TODO: Launch explict intent for AlbumViewActivity
-        Log.d("AlbumsFragment", "Album Item clicked with id: " + albumId);
+    public void onClick(String albumId, String albumName, String albumArt) {
         Intent intent = new Intent(getActivity(), AlbumViewActivity.class);
         intent.putExtra(AlbumViewActivity.EXTRA_ALBUM_ID, albumId);
         intent.putExtra(AlbumViewActivity.EXTRA_ALBUM_NAME, albumName);
+        intent.putExtra(AlbumViewActivity.EXTRA_ALBUM_ART, albumArt);
         startActivity(intent);
     }
 
