@@ -25,7 +25,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
             Albums.ALBUM_KEY,
             Albums.ARTIST,
             Albums.NUMBER_OF_SONGS,
-
+            Albums.ALBUM_ART
     };
 
     private static final int INDEX_ALBUM_ID = 0;
@@ -33,6 +33,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     private static final int INDEX_ALBUM_KEY = 2;
     private static final int INDEX_ALBUM_ARTIST = 3;
     private static final int INDEX_NUM_SONGS = 4;
+    private static final int INDEX_ALBUM_ART = 5;
 
     private Context mContext;
     private Cursor mCursor;
