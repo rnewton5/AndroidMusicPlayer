@@ -59,9 +59,7 @@ public class SongsFragment extends Fragment implements
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
 
         mRecyclerView = view.findViewById(R.id.rv_song_list);
@@ -70,7 +68,7 @@ public class SongsFragment extends Fragment implements
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mSongListAdapter = new SongListAdapter(getContext(), this);
+        mSongListAdapter = new SongListAdapter(getContext(), this, getAdapterViewType());
 
         mRecyclerView.setAdapter(mSongListAdapter);
 
@@ -82,26 +80,6 @@ public class SongsFragment extends Fragment implements
     @Override
     public void onClick(String songId) {
         Log.d("SongsFragment", "Song Item clicked with id: " + songId);
-    }
-
-    private String buildQuerySelection() {
-        String selection = "is_music=1";
-        if (mAlbumId != null && !mAlbumId.isEmpty()) {
-            selection += " AND ";
-            selection += Media.ALBUM_ID + "=" + mAlbumId;
-        }
-        if (mArtistId != null && !mArtistId.isEmpty()) {
-            selection += " AND " ;
-            selection += Media.ARTIST_ID + "=" + mArtistId;
-        }
-        return selection;
-    }
-
-    private String buildQuerySortby() {
-        if (mAlbumId != null && !mAlbumId.isEmpty()) {
-            return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TRACK];
-        }
-        return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TITLE];
     }
 
     @Override
@@ -128,4 +106,31 @@ public class SongsFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) { mSongListAdapter.swapCursor(null); }
+
+    private String buildQuerySelection() {
+        String selection = "is_music=1";
+        if (mAlbumId != null && !mAlbumId.isEmpty()) {
+            selection += " AND ";
+            selection += Media.ALBUM_ID + "=" + mAlbumId;
+        }
+        if (mArtistId != null && !mArtistId.isEmpty()) {
+            selection += " AND " ;
+            selection += Media.ARTIST_ID + "=" + mArtistId;
+        }
+        return selection;
+    }
+
+    private String buildQuerySortby() {
+        if (mAlbumId != null && !mAlbumId.isEmpty()) {
+            return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TRACK];
+        }
+        return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TITLE];
+    }
+
+    private int getAdapterViewType() {
+        if (mAlbumId != null && !mAlbumId.isEmpty()) {
+            return SongListAdapter.VIEW_TYPE_ALBUM;
+        }
+        return SongListAdapter.VIEW_TYPE_PLAYLIST;
+    }
 }
