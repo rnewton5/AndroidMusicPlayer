@@ -31,7 +31,9 @@
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/default_album"
-                android:fitsSystemWindows="true"/>
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.35"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
