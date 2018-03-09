@@ -2,7 +2,9 @@ package com.rhettnewton.musicplayer.fragments;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.MediaStore.Audio.Albums;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -91,14 +93,13 @@ public class AlbumsFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        String sortOrder = AlbumListAdapter.MAIN_ALBUM_PROJECTION[AlbumListAdapter.INDEX_ALBUM_NAME];
         return new CursorLoader(
                 getContext(),
-                AlbumListAdapter.CONTENT_URI,
+                getQueryUri(),
                 AlbumListAdapter.MAIN_ALBUM_PROJECTION,
                 null,
                 null,
-                sortOrder
+                AlbumListAdapter.MAIN_ALBUM_PROJECTION[AlbumListAdapter.INDEX_ALBUM_NAME]
         );
     }
 
@@ -110,5 +111,12 @@ public class AlbumsFragment extends Fragment implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAlbumListAdapter.swapCursor(null);
+    }
+
+    private Uri getQueryUri() {
+        if (mArtistId != null && !mArtistId.isEmpty()) {
+            return MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(mArtistId));
+        }
+        return AlbumListAdapter.CONTENT_URI;
     }
 }
