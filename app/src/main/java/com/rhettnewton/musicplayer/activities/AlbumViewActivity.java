@@ -13,12 +13,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.rhettnewton.musicplayer.R;
-import com.rhettnewton.musicplayer.adapters.SongListAdapter;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
+
+import java.lang.reflect.Field;
 
 public class AlbumViewActivity extends AppCompatActivity {
 
@@ -40,15 +43,8 @@ public class AlbumViewActivity extends AppCompatActivity {
         albumArt = getIntent().getStringExtra(EXTRA_ALBUM_ART);
 
         replaceFragment(SongsFragment.newInstance(albumId,null));
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(albumName);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        Bitmap bm = BitmapFactory.decodeFile(albumArt);
-        ImageView image = findViewById(R.id.iv_album_art);
-        image.setImageBitmap(bm);
+        setToolbar();
+        setAlbumArt();
     }
 
     public void replaceFragment(Fragment fragment) {
@@ -57,5 +53,23 @@ public class AlbumViewActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_container, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         fragmentTransaction.commit();
+    }
+
+    public void setToolbar() {
+        if (albumName.equals("") || albumName == null) {
+            albumName = "Album";
+        }
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(albumName);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    public void setAlbumArt() {
+        if (!albumArt.equals("") && albumArt != null) {
+            Bitmap bm = BitmapFactory.decodeFile(albumArt);
+            ImageView image = findViewById(R.id.iv_album_art);
+            image.setImageBitmap(bm);
+        }
     }
 }
