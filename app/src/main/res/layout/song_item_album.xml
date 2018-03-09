@@ -11,11 +11,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        app:layout_constraintStart_toEndOf="@+id/iv_album_art"
-        app:layout_constraintTop_toTopOf="@+id/iv_album_art"
-        tools:text="Song Title" />
+        android:textColor="@color/primaryText"
+        app:layout_constraintStart_toEndOf="@+id/tv_track_num"
+        app:layout_constraintTop_toTopOf="@+id/tv_track_num"
+        tools:text="Evergreen" />
 
     <TextView
         android:id="@+id/tv_song_duration"
@@ -23,20 +23,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+        android:textColor="@color/primaryText"
         app:layout_constraintStart_toStartOf="@+id/tv_song_title"
         app:layout_constraintTop_toBottomOf="@+id/tv_song_title"
-        tools:text="Artist" />
+        tools:text="99:99" />
 
     <TextView
         android:id="@+id/tv_track_num"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/content_description_album_art"
+        android:textAlignment="center"
+        android:textColor="@color/primaryText"
+        android:textSize="36sp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1" />
 
     <ImageView
         android:id="@+id/iv_album_art"
