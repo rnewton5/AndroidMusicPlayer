@@ -5,7 +5,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore.Audio.Media;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.rhettnewton.musicplayer.R;
+import com.rhettnewton.musicplayer.utils.TimeUtils;
 import com.rhettnewton.musicplayer.utils.UriUtils;
 
 /**
@@ -35,7 +35,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             Media.TITLE_KEY,
             Media.TRACK,
             Media.YEAR,
-            Media.DATA
+            Media.DATA,
+            Media.DURATION
     };
 
     public static final int INDEX_SONG_ID = 0;
@@ -50,24 +51,42 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     public static final int INDEX_TRACK = 9;
     public static final int INDEX_YEAR = 10;
     public static final int INDEX_SONG_DATA = 11;
+    public static final int INDEX_SONG_DURATION = 12;
+
+    public static final int VIEW_TYPE_ALBUM = 0;
+    public static final int VIEW_TYPE_PLAYLIST = 1;
 
     private Context mContext;
     private Cursor mCursor;
     private SongListAdapterOnClickHandler mClickHandler;
+    private int mViewType;
 
     public interface SongListAdapterOnClickHandler {
         void onClick(String songId);
     }
 
-    public SongListAdapter(Context context, SongListAdapterOnClickHandler clickHandler) {
+    public SongListAdapter(Context context, SongListAdapterOnClickHandler clickHandler, int viewType) {
         mContext = context;
         mClickHandler = clickHandler;
+        mViewType = viewType;
     }
 
     @Override
     public SongViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.song_item, viewGroup, false);
 
+        int layoutId;
+
+        switch(mViewType) {
+            case VIEW_TYPE_ALBUM:
+                layoutId = R.layout.song_item_album;
+                break;
+            case VIEW_TYPE_PLAYLIST:
+                layoutId = R.layout.song_item_playlist;
+                break;
+            default: throw new IllegalArgumentException("Invalid view type, value of " + mViewType);
+        }
+
+        View view = LayoutInflater.from(mContext).inflate(layoutId, viewGroup, false);
         view.setFocusable(true);
 
         return new SongViewHolder(view);
@@ -76,9 +95,16 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     @Override
     public void onBindViewHolder(SongViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
-            holder.mArtistName.setText(mCursor.getString(INDEX_ARTIST));
-            Glide.with(mContext).load(UriUtils.getAlbumArtUri(mCursor.getString(INDEX_ALBUM_ID))).into(holder.mAlbumArt);
+            if (mViewType == VIEW_TYPE_ALBUM) {
+                holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
+                String duration = TimeUtils.convertMillisToMinutesSeconds(Long.parseLong(mCursor.getString(INDEX_SONG_DURATION)));
+                holder.mSongDuration.setText(duration);
+                holder.mTrackNum.setText(String.valueOf(position + 1));
+            } else if (mViewType == VIEW_TYPE_PLAYLIST) {
+                holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
+                holder.mArtistName.setText(mCursor.getString(INDEX_ARTIST));
+                Glide.with(mContext).load(UriUtils.getAlbumArtUri(mCursor.getString(INDEX_ALBUM_ID))).into(holder.mAlbumArt);
+            }
         }
     }
 
@@ -102,6 +128,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
         private TextView mSongTitle;
         private TextView mArtistName;
+        private TextView mTrackNum;
+        private TextView mSongDuration;
         private ImageView mAlbumArt;
 
         private SongViewHolder(View itemView) {
@@ -109,6 +137,8 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             mSongTitle = itemView.findViewById(R.id.tv_song_title);
             mArtistName = itemView.findViewById(R.id.tv_song_artist);
             mAlbumArt = itemView.findViewById(R.id.iv_album_art);
+            mTrackNum = itemView.findViewById(R.id.tv_track_num);
+            mSongDuration = itemView.findViewById(R.id.tv_song_duration);
             itemView.setOnClickListener(this);
         }
 
