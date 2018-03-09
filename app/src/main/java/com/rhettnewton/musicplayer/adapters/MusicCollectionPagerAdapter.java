@@ -37,7 +37,7 @@ public class MusicCollectionPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return SongsFragment.newInstance(null, null);
             case 1:
-                return AlbumsFragment.newInstance(null, null);
+                return AlbumsFragment.newInstance(null);
             case 2:
                 return ArtistsFragment.newInstance(null, null);
             default:

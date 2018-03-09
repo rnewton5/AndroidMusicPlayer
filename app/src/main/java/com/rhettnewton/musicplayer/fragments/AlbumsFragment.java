@@ -24,11 +24,9 @@ public class AlbumsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         AlbumListAdapter.AlbumListAdapterOnClickHandler {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARTIST_ID = "artist_id";
 
-    private String mParam1;
-    private String mParam2;
+    private String mArtistId;
 
     private RecyclerView mRecyclerView;
     private AlbumListAdapter mAlbumListAdapter;
@@ -43,16 +41,14 @@ public class AlbumsFragment extends Fragment implements
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param artistId The Id of the artist, or null for all albums.
      * @return A new instance of fragment AlbumFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static AlbumsFragment newInstance(String param1, String param2) {
+    public static AlbumsFragment newInstance(String artistId) {
         AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARTIST_ID, artistId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -61,15 +57,12 @@ public class AlbumsFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mArtistId = getArguments().getString(ARTIST_ID);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_album, container, false);
 
         mRecyclerView = view.findViewById(R.id.rv_albums);
