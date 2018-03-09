@@ -21,36 +21,30 @@ public class SongsFragment extends Fragment implements
         LoaderManager.LoaderCallbacks<Cursor>,
         SongListAdapter.SongListAdapterOnClickHandler {
 
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ALBUM_ID = "album_id";
+    private static final String ARTIST_ID = "artist_id";
 
-    private String mParam1;
-    private String mParam2;
+    private String mAlbumId;
+    private String mArtistId;
 
-    private boolean mPermissionsGranted = false;
     private RecyclerView mRecyclerView;
     private SongListAdapter mSongListAdapter;
 
     private static final int SONG_LOADER_ID = 368;
 
-    public SongsFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param albumId The Id of the Album, or null for all songs.
+     * @param artistId The Id of the Artist, or null for all songs.
      * @return A new instance of fragment SongsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static SongsFragment newInstance(String param1, String param2) {
+    public static SongsFragment newInstance(String albumId, String artistId) {
         SongsFragment fragment = new SongsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ALBUM_ID, albumId);
+        args.putString(ARTIST_ID, artistId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -59,8 +53,8 @@ public class SongsFragment extends Fragment implements
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mAlbumId = getArguments().getString(ALBUM_ID);
+            mArtistId = getArguments().getString(ARTIST_ID);
         }
     }
 
@@ -91,11 +85,24 @@ public class SongsFragment extends Fragment implements
         Log.d("SongsFragment", "Song Item clicked with id: " + songId);
     }
 
+    private String buildQuerySelection(){
+        String selection = "is_music=1";
+        if (mAlbumId != null && !mAlbumId.isEmpty()) {
+            selection += " AND ";
+            selection += Media.ALBUM_ID + "=" + mAlbumId;
+        }
+        if (mArtistId != null && !mArtistId.isEmpty()) {
+            selection += " AND " ;
+            selection += Media.ARTIST_ID + "=" + mArtistId;
+        }
+        return selection;
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
         switch (loaderId) {
             case SONG_LOADER_ID:
-                String selection = "is_music=1";
+                String selection = buildQuerySelection();
                 return new CursorLoader(
                         getContext(),
                         Media.EXTERNAL_CONTENT_URI,
