@@ -35,18 +35,18 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
             Media.DATA
     };
 
-    private static final int INDEX_SONG_ID = 0;
-    private static final int INDEX_ARTIST_ID = 1;
-    private static final int INDEX_ALBUM_ID = 2;
-    private static final int INDEX_ARTIST = 3;
-    private static final int INDEX_ARTIST_KEY = 4;
-    private static final int INDEX_ALBUM = 5;
-    private static final int INDEX_ALBUM_KEY = 6;
-    private static final int INDEX_TITLE = 7;
-    private static final int INDEX_TITLE_KEY = 8;
-    private static final int INDEX_TRACK = 9;
-    private static final int INDEX_YEAR = 10;
-    private static final int INDEX_SONG_DATA = 11;
+    public static final int INDEX_SONG_ID = 0;
+    public static final int INDEX_ARTIST_ID = 1;
+    public static final int INDEX_ALBUM_ID = 2;
+    public static final int INDEX_ARTIST = 3;
+    public static final int INDEX_ARTIST_KEY = 4;
+    public static final int INDEX_ALBUM = 5;
+    public static final int INDEX_ALBUM_KEY = 6;
+    public static final int INDEX_TITLE = 7;
+    public static final int INDEX_TITLE_KEY = 8;
+    public static final int INDEX_TRACK = 9;
+    public static final int INDEX_YEAR = 10;
+    public static final int INDEX_SONG_DATA = 11;
 
     private Context mContext;
     private Cursor mCursor;
@@ -74,6 +74,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     public void onBindViewHolder(SongViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
             holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
+            holder.mArtistName.setText(mCursor.getString(INDEX_ARTIST));
         }
     }
 
@@ -96,10 +97,12 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
     class SongViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mSongTitle;
+        private TextView mArtistName;
 
         private SongViewHolder(View itemView) {
             super(itemView);
             mSongTitle = itemView.findViewById(R.id.tv_song_title);
+            mArtistName = itemView.findViewById(R.id.tv_song_artist);
             itemView.setOnClickListener(this);
         }
 
