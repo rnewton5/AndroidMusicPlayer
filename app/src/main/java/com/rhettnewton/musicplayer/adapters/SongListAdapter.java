@@ -9,15 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.rhettnewton.musicplayer.R;
+import com.rhettnewton.musicplayer.utils.UriUtils;
 
 /**
  * Created by Rhett on 2/25/2018.
  */
 
-public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder>  {
+public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongViewHolder> {
 
     public static final Uri CONTENT_URI = Media.EXTERNAL_CONTENT_URI;
     public static final String[] MAIN_SONG_PROJECTION = {
@@ -75,6 +78,7 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
         if (mCursor.moveToPosition(position)) {
             holder.mSongTitle.setText(mCursor.getString(INDEX_TITLE));
             holder.mArtistName.setText(mCursor.getString(INDEX_ARTIST));
+            Glide.with(mContext).load(UriUtils.getAlbumArtUri(mCursor.getString(INDEX_ALBUM_ID))).into(holder.mAlbumArt);
         }
     }
 
@@ -98,11 +102,13 @@ public class SongListAdapter extends RecyclerView.Adapter<SongListAdapter.SongVi
 
         private TextView mSongTitle;
         private TextView mArtistName;
+        private ImageView mAlbumArt;
 
         private SongViewHolder(View itemView) {
             super(itemView);
             mSongTitle = itemView.findViewById(R.id.tv_song_title);
             mArtistName = itemView.findViewById(R.id.tv_song_artist);
+            mAlbumArt = itemView.findViewById(R.id.iv_album_art);
             itemView.setOnClickListener(this);
         }
 
