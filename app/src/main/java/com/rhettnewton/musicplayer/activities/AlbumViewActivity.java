@@ -1,9 +1,5 @@
 package com.rhettnewton.musicplayer.activities;
 
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,17 +9,11 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
-
-import java.lang.reflect.Field;
 
 public class AlbumViewActivity extends AppCompatActivity {
 
@@ -34,6 +24,8 @@ public class AlbumViewActivity extends AppCompatActivity {
     private String albumId = "-1";
     private String albumName = "Album Name";
     private String albumArt = "";
+
+    private static final String DEFAULT_ALBUM_NAME = "Album";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +50,8 @@ public class AlbumViewActivity extends AppCompatActivity {
     }
 
     public void setToolbar() {
-        if (albumName.equals("") || albumName == null) {
-            albumName = "Album";
+        if (albumName.isEmpty() || albumName == null) {
+            albumName = DEFAULT_ALBUM_NAME;
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(albumName);
