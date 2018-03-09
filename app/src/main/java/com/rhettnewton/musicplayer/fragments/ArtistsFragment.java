@@ -3,7 +3,6 @@ package com.rhettnewton.musicplayer.fragments;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.MediaStore.Audio.Artists;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
@@ -98,11 +97,11 @@ public class ArtistsFragment extends Fragment implements
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(
                 getContext(),
-                Artists.EXTERNAL_CONTENT_URI,
+                ArtistListAdapter.CONTENT_URI,
                 ArtistListAdapter.MAIN_ARTIST_PROJECTION,
                 null,
                 null,
-                null
+                ArtistListAdapter.MAIN_ARTIST_PROJECTION[ArtistListAdapter.INDEX_ARTIST_NAME] + " COLLATE NOCASE"
         );
     }
 
