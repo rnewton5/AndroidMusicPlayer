@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.rhettnewton.musicplayer.R;
 
 /**
@@ -60,7 +62,13 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
     @Override
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
         if (mCursor.moveToPosition(position)) {
-            holder.mAlbumTextView.setText(mCursor.getString(INDEX_ALBUM_NAME));
+            holder.mAlbumName.setText(mCursor.getString(INDEX_ALBUM_NAME));
+            holder.mArtistName.setText(mCursor.getString(INDEX_ALBUM_ARTIST));
+            holder.mNumTracks.setText(mCursor.getString(INDEX_NUM_SONGS) + " Tracks");
+            String albumArt = mCursor.getString(INDEX_ALBUM_ART);
+            if (albumArt != null && !albumArt.isEmpty()) {
+                Glide.with(mContext).load(mCursor.getString(INDEX_ALBUM_ART)).into(holder.mAlbumArt);
+            }
         }
     }
 
@@ -82,11 +90,17 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
 
     class AlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        private TextView mAlbumTextView;
+        private TextView mAlbumName;
+        private TextView mArtistName;
+        private TextView mNumTracks;
+        private ImageView mAlbumArt;
 
         private AlbumViewHolder(View itemView) {
             super(itemView);
-            mAlbumTextView = itemView.findViewById(R.id.tv_album_name);
+            mAlbumName = itemView.findViewById(R.id.tv_album_name);
+            mArtistName = itemView.findViewById(R.id.tv_artist_name);
+            mNumTracks = itemView.findViewById(R.id.tv_num_tracks);
+            mAlbumArt = itemView.findViewById(R.id.iv_album_image);
             itemView.setOnClickListener(this);
         }
 
