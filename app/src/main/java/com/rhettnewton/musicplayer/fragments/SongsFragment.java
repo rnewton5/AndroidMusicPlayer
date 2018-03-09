@@ -84,7 +84,7 @@ public class SongsFragment extends Fragment implements
         Log.d("SongsFragment", "Song Item clicked with id: " + songId);
     }
 
-    private String buildQuerySelection(){
+    private String buildQuerySelection() {
         String selection = "is_music=1";
         if (mAlbumId != null && !mAlbumId.isEmpty()) {
             selection += " AND ";
@@ -97,18 +97,26 @@ public class SongsFragment extends Fragment implements
         return selection;
     }
 
+    private String buildQuerySortby() {
+        if (mAlbumId != null && !mAlbumId.isEmpty()) {
+            return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TRACK];
+        }
+        return SongListAdapter.MAIN_SONG_PROJECTION[SongListAdapter.INDEX_TITLE];
+    }
+
     @Override
     public Loader<Cursor> onCreateLoader(int loaderId, Bundle bundle) {
         switch (loaderId) {
             case SONG_LOADER_ID:
                 String selection = buildQuerySelection();
+                String sortBy = buildQuerySortby();
                 return new CursorLoader(
                         getContext(),
                         SongListAdapter.CONTENT_URI,
                         SongListAdapter.MAIN_SONG_PROJECTION,
                         selection,
                         null,
-                        null
+                        sortBy
                 );
             default:
                 throw new RuntimeException("Loader Not Implemented: " + loaderId);
