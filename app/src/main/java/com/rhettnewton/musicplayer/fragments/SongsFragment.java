@@ -81,7 +81,6 @@ public class SongsFragment extends Fragment implements
 
     @Override
     public void onClick(String songId) {
-        // TODO: Launch explict intent for AlbumViewActivity
         Log.d("SongsFragment", "Song Item clicked with id: " + songId);
     }
 
@@ -105,7 +104,7 @@ public class SongsFragment extends Fragment implements
                 String selection = buildQuerySelection();
                 return new CursorLoader(
                         getContext(),
-                        Media.EXTERNAL_CONTENT_URI,
+                        SongListAdapter.CONTENT_URI,
                         SongListAdapter.MAIN_SONG_PROJECTION,
                         selection,
                         null,
