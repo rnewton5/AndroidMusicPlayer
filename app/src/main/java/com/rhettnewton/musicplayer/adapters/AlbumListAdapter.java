@@ -30,12 +30,12 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Albu
             Albums.ALBUM_ART
     };
 
-    private static final int INDEX_ALBUM_ID = 0;
-    private static final int INDEX_ALBUM_NAME = 1;
-    private static final int INDEX_ALBUM_KEY = 2;
-    private static final int INDEX_ALBUM_ARTIST = 3;
-    private static final int INDEX_NUM_SONGS = 4;
-    private static final int INDEX_ALBUM_ART = 5;
+    public static final int INDEX_ALBUM_ID = 0;
+    public static final int INDEX_ALBUM_NAME = 1;
+    public static final int INDEX_ALBUM_KEY = 2;
+    public static final int INDEX_ALBUM_ARTIST = 3;
+    public static final int INDEX_NUM_SONGS = 4;
+    public static final int INDEX_ALBUM_ART = 5;
 
     private Context mContext;
     private Cursor mCursor;

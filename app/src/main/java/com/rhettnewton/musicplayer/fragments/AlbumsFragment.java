@@ -98,20 +98,19 @@ public class AlbumsFragment extends Fragment implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d("AlbumsFragment", "Albums loader created");
+        String sortOrder = AlbumListAdapter.MAIN_ALBUM_PROJECTION[AlbumListAdapter.INDEX_ALBUM_NAME];
         return new CursorLoader(
                 getContext(),
                 AlbumListAdapter.CONTENT_URI,
                 AlbumListAdapter.MAIN_ALBUM_PROJECTION,
                 null,
                 null,
-                null
+                sortOrder
         );
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d("AlbumsFragment", "Albums load finished");
         mAlbumListAdapter.swapCursor(data);
     }
 
