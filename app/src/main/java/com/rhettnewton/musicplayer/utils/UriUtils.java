@@ -10,8 +10,8 @@ import android.provider.MediaStore;
 
 public class UriUtils {
 
-    public static Uri getAlbumArtUri(int albumId) {
+    public static Uri getAlbumArtUri(String albumId) {
         Uri artworkUri = Uri.parse("content://media/external/audio/albumart");
-        return ContentUris.withAppendedId(artworkUri, albumId);
+        return ContentUris.withAppendedId(artworkUri, Long.parseLong(albumId));
     }
 }
