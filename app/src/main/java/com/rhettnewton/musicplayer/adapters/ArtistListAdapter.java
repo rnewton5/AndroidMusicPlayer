@@ -38,7 +38,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
     private ArtistListAdapterOnClickHandler mClickHandler;
 
     public interface ArtistListAdapterOnClickHandler {
-        void onClick(String artistId);
+        void onClick(String artistId, String artistName);
     }
 
     public ArtistListAdapter(Context context, ArtistListAdapterOnClickHandler clickHandler) {
@@ -91,7 +91,7 @@ public class ArtistListAdapter extends RecyclerView.Adapter<ArtistListAdapter.Ar
         @Override
         public void onClick(View view) {
             if (mCursor.moveToPosition(getAdapterPosition())) {
-                mClickHandler.onClick(mCursor.getString(INDEX_ARTIST_ID));
+                mClickHandler.onClick(mCursor.getString(INDEX_ARTIST_ID), mCursor.getString(INDEX_ARTIST_NAME));
             }
         }
     }
