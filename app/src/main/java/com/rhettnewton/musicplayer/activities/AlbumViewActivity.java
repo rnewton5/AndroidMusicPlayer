@@ -21,9 +21,9 @@ public class AlbumViewActivity extends AppCompatActivity {
     public static String EXTRA_ALBUM_NAME = "com.rhettnewton.EXTRA_ALBUM_NAME";
     public static String EXTRA_ALBUM_ART = "com.rhettnewton.EXTRA_ALBUM_ART";
 
-    private String albumId = "-1";
-    private String albumName = "Album Name";
-    private String albumArt = "";
+    private String mAlbumId = "-1";
+    private String mAlbumName = "Album Name";
+    private String mAlbumArt = "";
 
     private static final String DEFAULT_ALBUM_NAME = "Album";
 
@@ -32,11 +32,11 @@ public class AlbumViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_view);
 
-        albumId = getIntent().getStringExtra(EXTRA_ALBUM_ID);
-        albumName = getIntent().getStringExtra(EXTRA_ALBUM_NAME);
-        albumArt = getIntent().getStringExtra(EXTRA_ALBUM_ART);
+        mAlbumId = getIntent().getStringExtra(EXTRA_ALBUM_ID);
+        mAlbumName = getIntent().getStringExtra(EXTRA_ALBUM_NAME);
+        mAlbumArt = getIntent().getStringExtra(EXTRA_ALBUM_ART);
 
-        replaceFragment(SongsFragment.newInstance(albumId,null));
+        replaceFragment(SongsFragment.newInstance(mAlbumId,null));
         setAlbumArt();
         setToolbar();
     }
@@ -50,11 +50,11 @@ public class AlbumViewActivity extends AppCompatActivity {
     }
 
     public void setToolbar() {
-        if (albumName.isEmpty() || albumName == null) {
-            albumName = DEFAULT_ALBUM_NAME;
+        if (mAlbumName.isEmpty() || mAlbumName == null) {
+            mAlbumName = DEFAULT_ALBUM_NAME;
         }
         Toolbar toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle(albumName);
+        toolbar.setTitle(mAlbumName);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -64,8 +64,8 @@ public class AlbumViewActivity extends AppCompatActivity {
     }
 
     public void setAlbumArt() {
-        if (!albumArt.equals("") && albumArt != null) {
-            Bitmap bm = BitmapFactory.decodeFile(albumArt);
+        if (!mAlbumArt.equals("") && mAlbumArt != null) {
+            Bitmap bm = BitmapFactory.decodeFile(mAlbumArt);
             ImageView image = findViewById(R.id.iv_album_art);
             image.setImageBitmap(bm);
             int color = createPaletteSync(bm).getDominantColor(getResources().getColor(R.color.colorPrimary));
