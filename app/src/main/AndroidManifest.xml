@@ -39,6 +39,7 @@
         </activity>
         <activity
             android:name=".activities.ArtistViewActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/artists_page_title"
             android:parentActivityName=".activities.MainActivity">
             <meta-data
