@@ -35,10 +35,6 @@ public class AlbumsFragment extends Fragment implements
 
     private static final int ALBUM_LOADER_ID = 642;
 
-    public AlbumsFragment() {
-        // Required empty public constructor
-    }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
@@ -46,7 +42,6 @@ public class AlbumsFragment extends Fragment implements
      * @param artistId The Id of the artist, or null for all albums.
      * @return A new instance of fragment AlbumFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static AlbumsFragment newInstance(String artistId) {
         AlbumsFragment fragment = new AlbumsFragment();
         Bundle args = new Bundle();
@@ -95,7 +90,7 @@ public class AlbumsFragment extends Fragment implements
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         return new CursorLoader(
                 getContext(),
-                getQueryUri(),
+                AlbumListAdapter.CONTENT_URI,
                 AlbumListAdapter.MAIN_ALBUM_PROJECTION,
                 null,
                 null,
@@ -111,12 +106,5 @@ public class AlbumsFragment extends Fragment implements
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAlbumListAdapter.swapCursor(null);
-    }
-
-    private Uri getQueryUri() {
-        if (mArtistId != null && !mArtistId.isEmpty()) {
-            return MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(mArtistId));
-        }
-        return AlbumListAdapter.CONTENT_URI;
     }
 }

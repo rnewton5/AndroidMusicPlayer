@@ -12,7 +12,6 @@ import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 
 import com.rhettnewton.musicplayer.R;
-import com.rhettnewton.musicplayer.fragments.AlbumsFragment;
 import com.rhettnewton.musicplayer.fragments.ArtistAlbumsFragment;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
 
@@ -77,7 +76,7 @@ public class ArtistViewActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void onArtistAlbumInteraction(Uri uri) {
+    public void OnArtistAlbumInteraction(Uri uri) {
 
     }
 }
