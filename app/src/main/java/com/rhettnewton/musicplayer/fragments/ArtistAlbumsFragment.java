@@ -1,53 +1,54 @@
 package com.rhettnewton.musicplayer.fragments;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.rhettnewton.musicplayer.R;
+import com.rhettnewton.musicplayer.adapters.AlbumListAdapter;
+import com.rhettnewton.musicplayer.adapters.ArtistAlbumListAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link ArtistAlbumsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link ArtistAlbumsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class ArtistAlbumsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class ArtistAlbumsFragment extends Fragment implements
+        LoaderManager.LoaderCallbacks<Cursor>,
+        ArtistAlbumListAdapter.ArtistAlbumListAdapterOnClickHandler {
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private static final String ARTIST_ID = "artist_id";
 
-    private OnFragmentInteractionListener mListener;
+    private String mArtistId;
 
-    public ArtistAlbumsFragment() {
-        // Required empty public constructor
+    private RecyclerView mRecyclerView;
+    private ArtistAlbumListAdapter mArtistAlbumListAdapter;
+
+    private static final int ARTIST_ALBUM_LOADER_ID = 3712;
+
+    private OnArtistAlbumInteractionListener mListener;
+
+    public interface OnArtistAlbumInteractionListener {
+        void OnArtistAlbumInteraction(Uri uri);
     }
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param artistId The id of the artist to get albums for
      * @return A new instance of fragment ArtistAlbumsFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static ArtistAlbumsFragment newInstance(String param1, String param2) {
+    public static ArtistAlbumsFragment newInstance(String artistId) {
         ArtistAlbumsFragment fragment = new ArtistAlbumsFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARTIST_ID, artistId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,30 +57,41 @@ public class ArtistAlbumsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mArtistId = getArguments().getString(ARTIST_ID);
         }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_artist_albums, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_artist_albums, container, false);
+
+        mRecyclerView = view.findViewById(R.id.rv_artist_albums);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setHasFixedSize(true);
+
+        mArtistAlbumListAdapter = new ArtistAlbumListAdapter(getContext(), this);
+
+        mRecyclerView.setAdapter(mArtistAlbumListAdapter);
+
+        getActivity().getSupportLoaderManager().initLoader(ARTIST_ALBUM_LOADER_ID, null, this);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.OnArtistAlbumInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof OnArtistAlbumInteractionListener) {
+            mListener = (OnArtistAlbumInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -92,18 +104,37 @@ public class ArtistAlbumsFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onClick(String albumId) {
+
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        return new CursorLoader(
+                getContext(),
+                getQueryUri(),
+                ArtistAlbumListAdapter.MAIN_ALBUM_PROJECTION,
+                null,
+                null,
+                ArtistAlbumListAdapter.MAIN_ALBUM_PROJECTION[ArtistAlbumListAdapter.INDEX_ALBUM_NAME]
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mArtistAlbumListAdapter.swapCursor(cursor);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        mArtistAlbumListAdapter.swapCursor(null);
+    }
+
+    private Uri getQueryUri() {
+        if (mArtistId != null && !mArtistId.isEmpty()) {
+            return MediaStore.Audio.Artists.Albums.getContentUri("external", Long.parseLong(mArtistId));
+        }
+        return AlbumListAdapter.CONTENT_URI;
     }
 }
