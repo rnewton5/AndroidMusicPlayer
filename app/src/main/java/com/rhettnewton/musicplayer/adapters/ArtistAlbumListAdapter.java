@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,8 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
     private Cursor mCursor;
     private ArtistAlbumListAdapterOnClickHandler mClickHandler;
 
+    private int mFocusedItem = 0;
+
     public interface ArtistAlbumListAdapterOnClickHandler {
         void onClick(String albumId);
     }
@@ -76,6 +79,7 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
 
     @Override
     public void onBindViewHolder(ArtistAlbumViewHolder holder, int position) {
+        holder.itemView.setSelected(mFocusedItem == position);
         if (position != 0 && mCursor.moveToPosition(position - 1)) {
             holder.mAlbumName.setText(mCursor.getString(INDEX_ALBUM_NAME));
             holder.mNumTracks.setText(mCursor.getString(INDEX_NUM_SONGS) + " Tracks");
@@ -110,6 +114,45 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
         return VIEW_TYPE_ALBUM;
     }
 
+    @Override
+    public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        // Handle key up and key down and attempt to move selection
+        recyclerView.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                RecyclerView.LayoutManager lm = recyclerView.getLayoutManager();
+
+                // Return false if scrolled to the bounds and allow focus to move off the list
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                        return tryMoveSelection(lm, 1);
+                    } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                        return tryMoveSelection(lm, -1);
+                    }
+                }
+
+                return false;
+            }
+        });
+    }
+
+    private boolean tryMoveSelection(RecyclerView.LayoutManager lm, int direction) {
+        int tryFocusItem = mFocusedItem + direction;
+
+        // If still within valid bounds, move the selection, notify to redraw, and scroll
+        if (tryFocusItem >= 0 && tryFocusItem < getItemCount()) {
+            notifyItemChanged(mFocusedItem);
+            mFocusedItem = tryFocusItem;
+            notifyItemChanged(mFocusedItem);
+            lm.scrollToPosition(mFocusedItem);
+            return true;
+        }
+
+        return false;
+    }
+
     class ArtistAlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private TextView mAlbumName;
@@ -126,6 +169,9 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
 
         @Override
         public void onClick(View view) {
+            notifyItemChanged(mFocusedItem);
+            mFocusedItem = getLayoutPosition();
+            notifyItemChanged(mFocusedItem);
             if (mCursor.moveToPosition(getAdapterPosition() - 1)) {
                 mClickHandler.onClick(mCursor.getString(INDEX_ALBUM_ID));
             } else {
