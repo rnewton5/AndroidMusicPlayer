@@ -37,6 +37,9 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
     public static final int INDEX_NUM_SONGS = 4;
     public static final int INDEX_ALBUM_ART = 5;
 
+    private static final int VIEW_TYPE_ALL_ALBUMS = 0;
+    private static final int VIEW_TYPE_ALBUM = 1;
+
     private Context mContext;
     private Cursor mCursor;
     private ArtistAlbumListAdapterOnClickHandler mClickHandler;
@@ -52,7 +55,19 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
 
     @Override
     public ArtistAlbumViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.artist_album_item, viewGroup, false);
+        int viewId;
+        switch (viewType){
+            case VIEW_TYPE_ALBUM:
+                viewId = R.layout.artist_album_item;
+                break;
+            case VIEW_TYPE_ALL_ALBUMS:
+                viewId = R.layout.artist_album_all_item;
+                break;
+            default:
+                throw new RuntimeException("NO view for viewType: " + viewType);
+        }
+
+        View view = LayoutInflater.from(mContext).inflate(viewId, viewGroup, false);
 
         view.setFocusable(true);
 
@@ -61,7 +76,7 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
 
     @Override
     public void onBindViewHolder(ArtistAlbumViewHolder holder, int position) {
-        if (mCursor.moveToPosition(position)) {
+        if (position != 0 && mCursor.moveToPosition(position - 1)) {
             holder.mAlbumName.setText(mCursor.getString(INDEX_ALBUM_NAME));
             holder.mNumTracks.setText(mCursor.getString(INDEX_NUM_SONGS) + " Tracks");
             String albumArt = mCursor.getString(INDEX_ALBUM_ART);
@@ -74,9 +89,9 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
     @Override
     public int getItemCount() {
         if (mCursor != null) {
-            return mCursor.getCount();
+            return mCursor.getCount() + 1;
         }
-        return 0;
+        return 1;
     }
 
     public void swapCursor(Cursor newCursor) {
@@ -85,6 +100,14 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
         }
         mCursor = newCursor;
         notifyDataSetChanged();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == 0) {
+            return VIEW_TYPE_ALL_ALBUMS;
+        }
+        return VIEW_TYPE_ALBUM;
     }
 
     class ArtistAlbumViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -103,8 +126,10 @@ public class ArtistAlbumListAdapter extends RecyclerView.Adapter<ArtistAlbumList
 
         @Override
         public void onClick(View view) {
-            if (mCursor.moveToPosition(getAdapterPosition())) {
+            if (mCursor.moveToPosition(getAdapterPosition() - 1)) {
                 mClickHandler.onClick(mCursor.getString(INDEX_ALBUM_ID));
+            } else {
+                mClickHandler.onClick(null);
             }
         }
     }

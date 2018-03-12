@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/cassette" />
+        app:srcCompat="@drawable/all_albums" />
 
     <TextView
         android:id="@+id/tv_album_name"
@@ -24,12 +24,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
         android:singleLine="true"
-        android:textAlignment="center"
         android:ellipsize="marquee"
+        android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/iv_album_art"
         app:layout_constraintStart_toEndOf="@+id/iv_album_art"
         app:layout_constraintTop_toBottomOf="@+id/iv_album_art"
-        tools:text="An extremely long band @string/app_name" />
+        android:text="All Albums" />
 
     <TextView
         android:id="@+id/tv_track_num"
@@ -38,9 +38,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="2dp"
-        android:textAlignment="center"
         app:layout_constraintEnd_toStartOf="@+id/tv_album_name"
         app:layout_constraintStart_toEndOf="@+id/tv_album_name"
         app:layout_constraintTop_toBottomOf="@+id/tv_album_name"
-        tools:text="8 Tracks" />
+        tools:text="" />
 </android.support.constraint.ConstraintLayout>
