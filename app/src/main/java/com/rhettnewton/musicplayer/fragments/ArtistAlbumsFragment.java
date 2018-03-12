@@ -35,7 +35,7 @@ public class ArtistAlbumsFragment extends Fragment implements
     private OnArtistAlbumInteractionListener mListener;
 
     public interface OnArtistAlbumInteractionListener {
-        void OnArtistAlbumInteraction(Uri uri);
+        void OnArtistAlbumInteraction(String albumId);
     }
 
     /**
@@ -80,13 +80,6 @@ public class ArtistAlbumsFragment extends Fragment implements
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.OnArtistAlbumInteraction(uri);
-        }
-    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -106,7 +99,9 @@ public class ArtistAlbumsFragment extends Fragment implements
 
     @Override
     public void onClick(String albumId) {
-
+        if (mListener != null) {
+            mListener.OnArtistAlbumInteraction(albumId);
+        }
     }
 
     @Override

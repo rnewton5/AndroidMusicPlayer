@@ -1,5 +1,6 @@
 package com.rhettnewton.musicplayer.fragments;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.MediaStore.Audio.Media;
@@ -72,6 +73,7 @@ public class SongsFragment extends Fragment implements
 
         mRecyclerView.setAdapter(mSongListAdapter);
 
+        getActivity().getSupportLoaderManager().destroyLoader(SONG_LOADER_ID);
         getActivity().getSupportLoaderManager().initLoader(SONG_LOADER_ID, null, this);
 
         return view;

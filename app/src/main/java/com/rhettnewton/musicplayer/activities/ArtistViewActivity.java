@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.fragments.ArtistAlbumsFragment;
@@ -54,6 +55,8 @@ public class ArtistViewActivity extends AppCompatActivity implements
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.song_frame_container, fragment);
         fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        fragmentTransaction.detach(fragment);
+        fragmentTransaction.attach(fragment);
         fragmentTransaction.commit();
     }
 
@@ -76,7 +79,7 @@ public class ArtistViewActivity extends AppCompatActivity implements
     }
 
     @Override
-    public void OnArtistAlbumInteraction(Uri uri) {
-
+    public void OnArtistAlbumInteraction(String albumId) {
+        replaceSongsFragment(SongsFragment.newInstance(albumId, mArtistId));
     }
 }
