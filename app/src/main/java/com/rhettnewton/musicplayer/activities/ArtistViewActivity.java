@@ -2,6 +2,7 @@ package com.rhettnewton.musicplayer.activities;
 
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -12,11 +13,13 @@ import android.support.v7.widget.Toolbar;
 
 import com.rhettnewton.musicplayer.R;
 import com.rhettnewton.musicplayer.fragments.AlbumsFragment;
+import com.rhettnewton.musicplayer.fragments.ArtistAlbumsFragment;
 import com.rhettnewton.musicplayer.fragments.SongsFragment;
 
-public class ArtistViewActivity extends AppCompatActivity {
+public class ArtistViewActivity extends AppCompatActivity implements
+        ArtistAlbumsFragment.OnArtistAlbumInteractionListener {
 
-    public static final String EXTRA_ARTIST_ID = "extra_artist_it";
+    public static final String EXTRA_ARTIST_ID = "extra_artist_id";
     public static final String EXTRA_ARTIST_NAME = "extra_artist_name";
 
     private String mArtistId;
@@ -32,7 +35,7 @@ public class ArtistViewActivity extends AppCompatActivity {
         mArtistId = getIntent().getStringExtra(EXTRA_ARTIST_ID);
         mArtistName = getIntent().getStringExtra(EXTRA_ARTIST_NAME);
 
-        replaceAlbumsFragment(AlbumsFragment.newInstance(mArtistId));
+        replaceAlbumsFragment(ArtistAlbumsFragment.newInstance(mArtistId));
         replaceSongsFragment(SongsFragment.newInstance(null, mArtistId));
 
         setArtistArt();
@@ -71,5 +74,10 @@ public class ArtistViewActivity extends AppCompatActivity {
 
     public void setArtistArt() {
         //TODO: use Glide to get and cache artist art
+    }
+
+    @Override
+    public void onArtistAlbumInteraction(Uri uri) {
+
     }
 }
