@@ -39,14 +39,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.rhettnewton.musicplayer.activities.MainActivity"/>
         </activity>
-
-        <service
-            android:name=".services.MusicPlaybackService"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.media.browse.MediaBrowserService" />
-            </intent-filter>
-        </service>
     </application>
 
 </manifest>
